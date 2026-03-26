@@ -3,248 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D4RK</title>
+
+<title></title>
+
+<!-- Font (Angel Wish style alternative) -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
     overflow: hidden;
-    font-family: monospace;
-    color: white;
     background: black;
+    font-family: Arial, sans-serif;
 }
 
-/* VIDEO */
-video {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -3;
-}
-
-.overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    z-index: -2;
-}
-
+/* Star background */
 canvas {
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: -1;
 }
 
-/* PROFILE */
-.profile {
+/* Center container */
+.container {
     position: absolute;
-    top: 40%;
-    left: 80px;
-    transform: translateY(-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
 }
 
+/* Profile Picture */
+.pfp {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+/* Name with glow */
 .name {
+    font-family: 'Great Vibes', cursive;
     font-size: 48px;
-    font-weight: bold;
+    color: white;
+    animation: glow 2s infinite alternate;
 }
 
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px white, 0 0 10px white;
+    }
+    to {
+        text-shadow: 0 0 20px white, 0 0 40px white;
+    }
+}
+
+/* Bio */
 .bio {
-    margin-top: 10px;
-    opacity: 0.8;
+    color: white;
+    font-size: 22px;
+    margin: 15px 0 25px;
 }
 
-/* TOP INFO */
-.top-info {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 14px;
-    opacity: 0.8;
+/* Links */
+.link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    margin: 10px 0;
+    transition: 0.3s;
 }
 
-/* LINKS */
-.links {
-    margin-top: 25px;
-    display: flex;
-    gap: 18px;
+.link:hover {
+    text-shadow: 0 0 10px white, 0 0 20px white;
 }
 
-.links img {
-    object-fit: contain;
-    transition: 0.2s;
-    cursor: pointer;
-    opacity: 0.85;
-}
-
-/* INDIVIDUAL FIXES */
-.youtube {
-    width: 28px;
-    transform: scaleX(1.1);
-}
-
-.twitch {
-    width: 36px;
-    transform: scaleX(1.05);
-}
-
-.instagram {
-    width: 32px;
-    transform: scaleX(1.05);
-}
-
-.links img:hover {
-    transform: scale(1.2);
-    opacity: 1;
-    filter: drop-shadow(0 0 8px white);
-}
-
-/* MUSIC BUTTON */
-.music-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+/* Mute button */
+.mute {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
     padding: 10px 15px;
     border-radius: 10px;
-    background: rgba(255,255,255,0.1);
     cursor: pointer;
-    backdrop-filter: blur(10px);
 }
 </style>
 </head>
+
 <body>
 
-<video autoplay muted loop>
-    <source src="assets/Background.mp4" type="video/mp4">
-</video>
+<canvas id="stars"></canvas>
 
-<div class="overlay"></div>
-<canvas id="bg"></canvas>
+<button class="mute" onclick="toggleMusic()">Mute</button>
 
-<div class="top-info">
-    👁 <span id="views">0</span> &nbsp;&nbsp; 📍 Abyssus animae
-</div>
+<div class="container">
+    <img src="pfp.png" class="pfp">
 
-<div class="profile">
-    <div class="name">D4RK</div>
+    <div class="name">D4RK_36</div>
+
     <div class="bio">All roads lead to Rome</div>
 
-    <div class="links">
-        <a href="https://www.youtube.com/@D4RK_36" target="_blank">
-            <img src="assets/youtube.png" class="youtube">
-        </a>
-        <a href="https://www.twitch.tv/d4rk_36" target="_blank">
-            <img src="assets/twitch.png" class="twitch">
-        </a>
-        <a href="https://www.instagram.com/the3.6ram" target="_blank">
-            <img src="assets/instagram.png" class="instagram">
-        </a>
-    </div>
+    <a class="link" href="https://www.youtube.com/@D4RK_36" target="_blank">YouTube</a>
+    <a class="link" href="https://www.twitch.tv/d4rk_36" target="_blank">Twitch</a>
+    <a class="link" href="https://www.instagram.com/the3.6ram" target="_blank">Instagram</a>
 </div>
 
-<audio id="music" loop>
-    <source src="assets/Music.mp3" type="audio/mpeg">
+<!-- Music -->
+<audio id="music" autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<div class="music-btn" onclick="toggleMusic()">Mute Music</div>
-
 <script>
-/* CANVAS */
-const canvas = document.getElementById("bg");
+// MUSIC TOGGLE
+let music = document.getElementById("music");
+function toggleMusic() {
+    if (music.muted) {
+        music.muted = false;
+    } else {
+        music.muted = true;
+    }
+}
+
+// STAR BACKGROUND
+const canvas = document.getElementById("stars");
 const ctx = canvas.getContext("2d");
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener("resize", resize);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-let t = 0;
-
-/* STARS */
 let stars = [];
-for (let i = 0; i < 80; i++) {
+
+for (let i = 0; i < 200; i++) {
     stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         size: Math.random() * 2,
-        speed: Math.random() * 0.05
+        speed: Math.random() * 1.5 + 0.5
     });
 }
 
 function drawStars() {
-    stars.forEach(s => {
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let star of stars) {
         ctx.fillStyle = "white";
-        ctx.fill();
+        ctx.fillRect(star.x, star.y, star.size, star.size);
 
-        s.x += s.speed;
-        if (s.x > canvas.width) {
-            s.x = 0;
-            s.y = Math.random() * canvas.height;
+        star.y += star.speed;
+
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
         }
-    });
-}
-
-/* WAVE */
-function drawWave(offset, alpha) {
-    ctx.beginPath();
-    for (let x = 0; x < canvas.width; x++) {
-        let y = Math.sin(x * 0.006 + t + offset) * 20 + canvas.height * 0.6;
-        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-    ctx.stroke();
+
+    requestAnimationFrame(drawStars);
 }
 
-function animate() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawStars();
-    drawWave(0,0.2);
-    drawWave(2,0.1);
-    t += 0.01;
-    requestAnimationFrame(animate);
-}
-animate();
+drawStars();
 
-/* MUSIC */
-const music = document.getElementById("music");
-let muted = false;
-
-function toggleMusic() {
-    muted = !muted;
-    music.muted = muted;
-    document.querySelector(".music-btn").innerText = muted ? "Unmute Music" : "Mute Music";
-}
-
-// try autoplay
-music.play().catch(() => {
-    document.body.addEventListener("click", () => music.play(), { once: true });
-});
-
-/* VIEW COUNTER (LOCAL) */
-let views = localStorage.getItem("views") || 0;
-views++;
-localStorage.setItem("views", views);
-document.getElementById("views").innerText = views;
-
-/* TAB TITLE ANIMATION */
+// TITLE ANIMATION
 const text = "D4RK_36";
-let i = 0;
+let index = 0;
 let forward = true;
 
-setInterval(() => {
+function animateTitle() {
     if (forward) {
-        i++;
-        if (i === text.length) forward = false;
+        document.title = text.substring(0, index++);
+        if (index > text.length) {
+            forward = false;
+            setTimeout(animateTitle, 1000);
+            return;
+        }
     } else {
-        i--;
-        if (i === 0) forward = true;
+        document.title = text.substring(0, index--);
+        if (index < 0) {
+            forward = true;
+            return;
+        }
     }
-    document.title = text.substring(0, i);
-}, 200);
+    setTimeout(animateTitle, 150);
+}
+
+animateTitle();
 </script>
 
 </body>
