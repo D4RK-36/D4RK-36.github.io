@@ -6,141 +6,150 @@
 <title>D4RK</title>
 
 <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-        font-family: monospace;
-        color: white;
-        background: black;
-    }
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: monospace;
+    color: white;
+    background: black;
+}
 
-    /* --- VIDEO BACKGROUND --- */
-    video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -3;
-    }
+/* VIDEO */
+video {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -3;
+}
 
-    /* dark overlay */
-    .overlay {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.6);
-        z-index: -2;
-    }
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: -2;
+}
 
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: -1;
-    }
+canvas {
+    position: fixed;
+    z-index: -1;
+}
 
-    /* --- MAIN PROFILE UI --- */
-    .profile {
-        position: absolute;
-        top: 40%;
-        left: 80px;
-        transform: translateY(-50%);
-    }
+/* PROFILE */
+.profile {
+    position: absolute;
+    top: 40%;
+    left: 80px;
+    transform: translateY(-50%);
+}
 
-    .name {
-        font-size: 48px;
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
+.name {
+    font-size: 48px;
+    font-weight: bold;
+}
 
-    .bio {
-        margin-top: 10px;
-        opacity: 0.8;
-        font-size: 16px;
-    }
+.bio {
+    margin-top: 10px;
+    opacity: 0.8;
+}
 
-    /* --- STATS (top right style) --- */
-    .top-info {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 14px;
-        opacity: 0.8;
-    }
+/* TOP INFO */
+.top-info {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 14px;
+    opacity: 0.8;
+}
 
-    /* --- ICON LINKS --- */
-    .links {
-        margin-top: 25px;
-        display: flex;
-        gap: 15px;
-    }
+/* LINKS */
+.links {
+    margin-top: 25px;
+    display: flex;
+    gap: 18px;
+}
 
-    .links img {
-        width: 32px;
-        height: 32px;
-        transition: 0.2s;
-        cursor: pointer;
-        opacity: 0.8;
-    }
+.links img {
+    object-fit: contain;
+    transition: 0.2s;
+    cursor: pointer;
+    opacity: 0.85;
+}
 
-    .links img:hover {
-        transform: scale(1.2);
-        opacity: 1;
-        filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
-    }
+/* INDIVIDUAL FIXES */
+.youtube {
+    width: 28px;
+    transform: scaleX(1.1);
+}
 
-    /* --- MUSIC BUTTON --- */
-    .music-btn {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 15px;
-        border-radius: 10px;
-        background: rgba(255,255,255,0.1);
-        cursor: pointer;
-        font-size: 14px;
-        backdrop-filter: blur(10px);
-    }
+.twitch {
+    width: 36px;
+    transform: scaleX(1.05);
+}
+
+.instagram {
+    width: 32px;
+    transform: scaleX(1.05);
+}
+
+.links img:hover {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 8px white);
+}
+
+/* MUSIC BUTTON */
+.music-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+}
 </style>
 </head>
 <body>
 
-<!-- VIDEO BACKGROUND -->
 <video autoplay muted loop>
     <source src="assets/Background.mp4" type="video/mp4">
 </video>
 
 <div class="overlay"></div>
-
 <canvas id="bg"></canvas>
 
-<!-- TOP INFO -->
 <div class="top-info">
-    👁 1,262 &nbsp;&nbsp; 📍 Abyssus animae
+    👁 <span id="views">0</span> &nbsp;&nbsp; 📍 Abyssus animae
 </div>
 
-<!-- PROFILE -->
 <div class="profile">
-    <div class="name">D4RK_36 💎</div>
-    <div class="bio">All roads lead to Rome.</div>
+    <div class="name">D4RK</div>
+    <div class="bio">All roads lead to Rome</div>
 
     <div class="links">
-        <a href="#"><img src="assets/youtube.png"></a>
-        <a href="#"><img src="assets/twitch.png"></a>
-        <a href="#"><img src="assets/instagram.png"></a>
+        <a href="https://www.youtube.com/@D4RK_36" target="_blank">
+            <img src="assets/youtube.png" class="youtube">
+        </a>
+        <a href="https://www.twitch.tv/d4rk_36" target="_blank">
+            <img src="assets/twitch.png" class="twitch">
+        </a>
+        <a href="https://www.instagram.com/the3.6ram" target="_blank">
+            <img src="assets/instagram.png" class="instagram">
+        </a>
     </div>
 </div>
 
-<!-- MUSIC -->
 <audio id="music" loop>
     <source src="assets/Music.mp3" type="audio/mpeg">
 </audio>
 
-<div class="music-btn" onclick="toggleMusic()">Play Music</div>
+<div class="music-btn" onclick="toggleMusic()">Mute Music</div>
 
 <script>
+/* CANVAS */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -153,24 +162,22 @@ window.addEventListener("resize", resize);
 
 let t = 0;
 
-// --- STARS ---
+/* STARS */
 let stars = [];
 for (let i = 0; i < 80; i++) {
     stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         size: Math.random() * 2,
-        speed: Math.random() * 0.05,
-        opacity: Math.random()
+        speed: Math.random() * 0.05
     });
 }
 
-// --- DRAW STARS ---
 function drawStars() {
     stars.forEach(s => {
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
+        ctx.fillStyle = "white";
         ctx.fill();
 
         s.x += s.speed;
@@ -181,54 +188,64 @@ function drawStars() {
     });
 }
 
-// --- WAVE ---
+/* WAVE */
 function drawWave(offset, alpha) {
     ctx.beginPath();
-
     for (let x = 0; x < canvas.width; x++) {
-        let y =
-            Math.sin(x * 0.006 + t * 0.5 + offset) * 20 +
-            canvas.height * 0.6;
-
-        if (x === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
+        let y = Math.sin(x * 0.006 + t + offset) * 20 + canvas.height * 0.6;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-
     ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-    ctx.lineWidth = 1.5;
     ctx.stroke();
 }
 
-// --- LOOP ---
 function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     drawStars();
-    drawWave(0, 0.2);
-    drawWave(2, 0.1);
-
+    drawWave(0,0.2);
+    drawWave(2,0.1);
     t += 0.01;
     requestAnimationFrame(animate);
 }
 animate();
 
-// --- MUSIC CONTROL ---
-let playing = false;
+/* MUSIC */
 const music = document.getElementById("music");
+let muted = false;
 
 function toggleMusic() {
-    if (!playing) {
-        music.play();
-        event.target.innerText = "Pause Music";
-    } else {
-        music.pause();
-        event.target.innerText = "Play Music";
-    }
-    playing = !playing;
+    muted = !muted;
+    music.muted = muted;
+    document.querySelector(".music-btn").innerText = muted ? "Unmute Music" : "Mute Music";
 }
+
+// try autoplay
+music.play().catch(() => {
+    document.body.addEventListener("click", () => music.play(), { once: true });
+});
+
+/* VIEW COUNTER (LOCAL) */
+let views = localStorage.getItem("views") || 0;
+views++;
+localStorage.setItem("views", views);
+document.getElementById("views").innerText = views;
+
+/* TAB TITLE ANIMATION */
+const text = "D4RK_36";
+let i = 0;
+let forward = true;
+
+setInterval(() => {
+    if (forward) {
+        i++;
+        if (i === text.length) forward = false;
+    } else {
+        i--;
+        if (i === 0) forward = true;
+    }
+    document.title = text.substring(0, i);
+}, 200);
 </script>
 
 </body>
 </html>
-
-Yes this code is AI-Generated i can't code Lmao
